@@ -4,6 +4,7 @@ import { Home } from 'pages/Home';
 import { Movies } from 'pages/Movies';
 
 import { NavLinkSt } from './App.styled';
+import { MovieDetails } from 'pages/MovieDetails';
 
 export const App = () => {
   return (
@@ -25,6 +26,7 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/movies" element={<Movies />}></Route>
+        <Route path="/movies/:movieId/*" element={<MovieDetails />}></Route>
       </Routes>
     </div>
   );

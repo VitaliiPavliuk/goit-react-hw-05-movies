@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { requestTrendingMovies } from 'services/api';
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -35,11 +36,18 @@ export const Home = () => {
   //   }, []);
 
   return (
-    <ul>
-      {trendingMovies.length !== 0 &&
-        trendingMovies.map(movie => {
-          return <li key={movie.id}>{movie.title}</li>;
-        })}
-    </ul>
+    <div>
+      <h1>Trending today </h1>
+      <ul>
+        {trendingMovies.length !== 0 &&
+          trendingMovies.map(movie => {
+            return (
+              <li key={movie.id}>
+                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+              </li>
+            );
+          })}
+      </ul>
+    </div>
   );
 };

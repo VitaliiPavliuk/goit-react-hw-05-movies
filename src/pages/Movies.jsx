@@ -1,5 +1,6 @@
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { requestMovies } from 'services/api';
 
 export const Movies = () => {
@@ -7,7 +8,9 @@ export const Movies = () => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    if (query === '') return;
+
+    const fetchMovies = async query => {
       try {
         const fetchedMovies = await requestMovies(query);
         setMovies(fetchedMovies);
@@ -15,7 +18,7 @@ export const Movies = () => {
         console.log(error);
       }
     };
-    fetchMovies();
+    fetchMovies(query);
   }, [query]);
 
   const handleSetQuery = searchQuery => {
@@ -45,7 +48,11 @@ export const Movies = () => {
       <ul>
         {movies.length !== 0 &&
           movies.map(movie => {
-            return <li key={movie.id}>{movie.title}</li>;
+            return (
+              <li key={movie.id}>
+                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+              </li>
+            );
           })}
       </ul>
     </div>
