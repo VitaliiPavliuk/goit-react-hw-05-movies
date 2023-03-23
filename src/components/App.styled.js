@@ -8,6 +8,7 @@ export const NavLinkSt = styled(NavLink)`
   padding: 15px;
   transition: all 0.3s;
   color: black;
+
   &.active {
     color: blue;
     border-bottom: 2px solid blue;

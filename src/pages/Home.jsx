@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { requestTrendingMovies } from 'services/api';
 import { Link } from 'react-router-dom';
+import { Loader } from 'components/Loader/Loader';
 
-export const Home = () => {
+function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
+        setIsLoading(true);
+
         const fetchedTrendingMovies = await requestTrendingMovies();
+
         setTrendingMovies(fetchedTrendingMovies);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchTrendingMovies();
   }, []);
 
-  console.log(trendingMovies);
-
-  //   useEffect(() => {
-  //     const fetchCourses = async () => {
-  //       try {
-  //         setIsLoading(true);
-  //         const fetchedCourses = await requestCourses();
-  //         setCourses(fetchedCourses);
-  //       } catch (error) {
-  //         setError(error.message);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     };
-
-  //     fetchCourses();
-  //   }, []);
-
   return (
     <div>
       <h1>Trending today </h1>
+
+      {isLoading && <Loader />}
+      {error !== null && <p>Oops, some error occured... {error}</p>}
+
       <ul>
         {trendingMovies.length !== 0 &&
           trendingMovies.map(movie => {
@@ -50,4 +44,6 @@ export const Home = () => {
       </ul>
     </div>
   );
-};
+}
+
+export default Home;
