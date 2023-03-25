@@ -39,15 +39,15 @@ function Cast() {
         {cast.length !== 0 &&
           cast.map(actor => {
             return (
-              <li key={actor.id}>
-                {actor.profile_path ? (
-                  <img
-                    src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
-                    alt={actor.name}
-                  />
-                ) : (
-                  <img src={avatar} alt="" />
-                )}
+              <li key={actor.order}>
+                <img
+                  src={
+                    actor.profile_path
+                      ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
+                      : avatar
+                  }
+                  alt={actor.name}
+                />
 
                 <p>{actor.name}</p>
                 <p>Character: {actor.character}</p>

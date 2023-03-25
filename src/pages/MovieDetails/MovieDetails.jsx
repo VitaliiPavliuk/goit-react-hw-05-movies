@@ -1,12 +1,11 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { useParams, Link, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, Suspense } from 'react';
+import { useParams, Link, useLocation, Outlet } from 'react-router-dom';
 
 import { requestMovieById } from 'services/api';
 import { Loader } from 'components/Loader/Loader';
 import { MovieWrapper } from './MovieDetails.styled';
 
-const Cast = lazy(() => import('./Cast'));
-const Reviews = lazy(() => import('./Reviews'));
+import avatar from '../../img/avatar.webp';
 
 function MovieDetails() {
   const [movie, setMovie] = useState({});
@@ -44,12 +43,15 @@ function MovieDetails() {
 
       <Link to={backLinkHref}>Go back</Link>
       <MovieWrapper>
-        {movie.poster_path && (
-          <img
-            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-            alt=""
-          />
-        )}
+        <img
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+              : avatar
+          }
+          alt=""
+        />
+
         <div>
           {movie.release_date && (
             <h3>
@@ -83,10 +85,7 @@ function MovieDetails() {
       </ul>
 
       <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="cast" element={<Cast />} />
-          <Route path="reviews" element={<Reviews />} />
-        </Routes>
+        <Outlet />
       </Suspense>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { requestTrendingMovies } from 'services/api';
-import { Link } from 'react-router-dom';
 import { Loader } from 'components/Loader/Loader';
+import { MoviesList } from 'components/MoviesList';
 
 function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -32,16 +32,7 @@ function Home() {
       {isLoading && <Loader />}
       {error !== null && <p>Oops, some error occured... {error}</p>}
 
-      <ul>
-        {trendingMovies.length !== 0 &&
-          trendingMovies.map(movie => {
-            return (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-              </li>
-            );
-          })}
-      </ul>
+      <MoviesList movies={trendingMovies} />
     </div>
   );
 }

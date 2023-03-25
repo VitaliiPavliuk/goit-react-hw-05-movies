@@ -1,6 +1,8 @@
 import { Loader } from 'components/Loader/Loader';
-import React, { useEffect, useState, useRef } from 'react';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { MoviesList } from 'components/MoviesList';
+import { SearchMoviesForm } from 'components/SearchMoviesForm/SearchMoviesForm';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { requestMovies } from 'services/api';
 
 function Movies() {
@@ -9,8 +11,6 @@ function Movies() {
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const location = useLocation();
-  const searchInputRef = useRef();
   const queryValue = searchParams.get('query');
 
   useEffect(() => {
@@ -35,37 +35,21 @@ function Movies() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    setSearchParams({ query: searchInputRef.current.value });
+    setSearchParams({ query: event.currentTarget.elements.query.value });
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input ref={searchInputRef} type="text" placeholder="Search movies" />
-        <button type="submit">Search</button>
-      </form>
+      <SearchMoviesForm handleSubmit={handleSubmit} />
 
       {isLoading && <Loader />}
       {error !== null && <p>Oops, some error occured... {error}</p>}
 
-      <ul>
-        {movies.length !== 0 &&
-          movies.map(movie => {
-            return (
-              <li key={movie.id}>
-                <Link state={{ from: location }} to={`/movies/${movie.id}`}>
-                  {movie.title}
-                </Link>
-              </li>
-            );
-          })}
+      <MoviesList movies={movies} />
 
-        {queryValue && movies.length === 0 && (
-          <p>
-            There is no matching with such movie. Please enter another movie!
-          </p>
-        )}
-      </ul>
+      {queryValue && movies.length === 0 && (
+        <p>There is no matching with such movie. Please enter another movie!</p>
+      )}
     </div>
   );
 }
