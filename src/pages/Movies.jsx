@@ -1,5 +1,5 @@
 import { Loader } from 'components/Loader/Loader';
-import { MoviesList } from 'components/MoviesList';
+import { MoviesList } from 'components/MoviesList/MoviesList';
 import { SearchMoviesForm } from 'components/SearchMoviesForm/SearchMoviesForm';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
